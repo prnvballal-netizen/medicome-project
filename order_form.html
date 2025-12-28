@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicome | Order Form</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .order-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .order-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-container label {
+            font-weight: bold;
+        }
+
+        .order-container input,
+        .order-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .order-container button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    <h2>MEDICOME</h2>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="medicine.html">Medicines</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<div class="order-container">
+    <h2>Medicine Order Form</h2>
+
+    <form onsubmit="return placeOrder()">
+        <label>Medicine Name</label>
+        <input type="text" id="medicine" readonly>
+
+        <label>Price (₹)</label>
+        <input type="text" id="price" readonly>
+
+        <label>Full Name</label>
+        <input type="text" id="name" required>
+
+        <label>Mobile Number</label>
+        <input type="text" id="mobile" required>
+
+        <label>Delivery Address</label>
+        <textarea id="address" rows="3" required></textarea>
+
+        <button type="submit">Place Order</button>
+    </form>
+</div>
+
+<script type="module">
+
+import { onAuthStateChanged } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { addDoc, collection } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import { auth, db } from "./firebase.js";
+
+// 🔹 Autofill medicine details
+document.getElementById("medicine").value =
+  localStorage.getItem("medicineName") || "";
+
+document.getElementById("price").value =
+  localStorage.getItem("medicinePrice") || "";
+
+// 🔐 Page protection
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+// 💊 Place medicine order
+window.placeOrder = function () {
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      alert("Session expired. Please login again.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "medicineOrders"), {
+        uid: user.uid,
+        medicine: document.getElementById("medicine").value,
+        price: document.getElementById("price").value,
+        name: document.getElementById("name").value,
+        mobile: document.getElementById("mobile").value,
+        address: document.getElementById("address").value,
+        date: new Date()
+      });
+
+      alert("Order placed successfully!");
+      window.location.href = "my_orders.html";
+
+    } catch (error) {
+      alert("Error placing order: " + error.message);
+      console.error(error);
+    }
+  });
+
+  return false;
+};
+
+</script>
+
+
+
+
+<footer>
+    <p>© 2025 Medicome</p>
+</footer>
+
+</body>
+</html>

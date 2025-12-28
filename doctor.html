@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicome | Doctors</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    
+    <div style="display:flex; align-items:center;">
+        <img src="assets/images/logo.png" height="45" style="margin-right:10px;">
+        <h2 style="margin:0;">MEDICOME</h2>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="doctor.html">Doctors</a>
+        <a href="medicine.html">Medicines</a>
+        <a href="contact.html">Contact</a>
+      
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- Page Intro -->
+    <div class="section">
+        <h2>Consult Our Expert Doctors</h2>
+        <p>
+            Medicome connects you with experienced and certified doctors across various
+            medical specializations. Get professional medical advice anytime, anywhere.
+        </p>
+    </div>
+
+    <!-- Doctor Grid -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;">
+
+        <!-- Doctor Card Template -->
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor1.avif" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Amit Sharma</h3>
+            <p><strong>General Physician</strong></p>
+            <p>Experience: 10 Years</p>
+            <p>Available: Mon – Sat</p>
+            <button onclick="consultDoctor('Dr. Amit Sharma','General Physician')">Consult Now</button>
+        </div>
+
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor2.jpg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Neha Patil</h3>
+            <p><strong>Pediatrician</strong></p>
+            <p>Experience: 8 Years</p>
+            <p>Available: Mon – Fri</p>
+            <button onclick="consultDoctor('Dr. Neha Patil','Pediatrician')">Consult Now</button>
+        </div>
+
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor3.jpg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Rajesh Kulkarni</h3>
+            <p><strong>Cardiologist</strong></p>
+            <p>Experience: 15 Years</p>
+            <p>Available: Tue – Sat</p>
+            <button onclick="consultDoctor('Dr. Rajesh Kulkarni','Cardiologist')">Consult Now</button>
+        </div>
+
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor4.png" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Sneha Joshi</h3>
+            <p><strong>Dermatologist</strong></p>
+            <p>Experience: 6 Years</p>
+            <p>Available: Mon – Thu</p>
+            <button onclick="consultDoctor('Dr. Sneha Joshi','Dermatologist')">Consult Now</button>
+        </div>
+
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor5.jpeg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Pandurang Wattamwar</h3>
+            <p><strong>Neurologist & Epileptologist</strong></p>
+            <p>Experience: 12 Years</p>
+            <p>Available: Wed – Sun</p>
+            <button onclick="consultDoctor('Dr. Pandurang Wattamwar','Neurologist')">Consult Now</button>
+        </div>
+
+        <div class="section" style="text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+            <div style="width:100%; height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px;">
+                <img src="assets/images/doctor6.avif" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h3>Dr. Anjali Deshmukh</h3>
+            <p><strong>Gynecologist</strong></p>
+            <p>Experience: 9 Years</p>
+            <p>Available: Mon – Sat</p>
+            <button onclick="consultDoctor('Dr. Anjali Deshmukh','Gynecologist')">Consult Now</button>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    <p><strong>Medicome — Connecting You With Trusted Doctors</strong></p>
+    <p>© 2025 Medicome. All Rights Reserved.</p>
+</footer>
+
+<script type="module">
+import { onAuthStateChanged } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+let loggedIn = false;
+
+// protect page
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    loggedIn = true;
+  }
+});
+
+// consult button logic
+window.consultDoctor = function(name, specialization) {
+  if (!loggedIn) return;
+
+  localStorage.setItem("doctorName", name);
+  localStorage.setItem("doctorSpec", specialization);
+  window.location.href = "consult_form.html";
+};
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Medicome | Home</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<script>
+function logout() {
+    localStorage.removeItem("loggedInUser");
+    alert("Logged out successfully");
+    window.location.href = "login.html";
+}
+</script>
+<script type="module">
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+onAuthStateChanged(window.auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+</script>
+
+<body>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="assets/audio/bg-music.mp3" type="audio/mp3">
+    </audio>
+
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    
+    <div style="display:flex; align-items:center;">
+        <img src="assets/images/logo.png" alt="Medicome Logo" height="50" style="margin-right:10px;">
+        <div>
+            <h1 style="margin:0;">MEDICOME</h1>
+            <small>Your Digital Healthcare Partner</small>
+        </div>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="doctor.html">Doctors</a>
+        <a href="medicine.html">Medicines</a>
+        <a href="contact.html">Contact</a>
+        <!-- LOGOUT BUTTON -->
+      <button id="logoutBtn">Logout</button>
+<script type="module" src="logout.js"></script>
+<a href="my_orders.html">My Orders</a>
+<a href="my_consults.html">My Consultations</a>
+
+    </nav>
+
+</header>
+
+    <!-- Image Slider -->
+   <div style="display:flex; gap:15px; margin-top:20px;">
+    <img src="assets/images/banner1.jpg" alt="Healthcare service" width="33%">
+    <img src="assets/images/banner2.jpg" alt="Doctor consultation" width="33%">
+    <img src="assets/images/banner3.jpg" alt="Online pharmacy" width="33%">
+</div>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <div class="section">
+            <h2>Your Health, Our Priority — Anytime, Anywhere</h2>
+            <p>
+                Order medicines online, consult trusted doctors, and manage your healthcare
+                needs from the comfort of your home.
+            </p>
+            <p><strong>Trusted by thousands • Fast delivery • Secure consultation</strong></p>
+        </div>
+
+        <!-- About Section -->
+        <div class="section">
+            <h2>About Medicome</h2>
+            <p>
+                Medicome is a modern digital healthcare platform designed to make medical services
+                easily accessible to everyone. Our goal is to bridge the gap between patients,
+                doctors, and pharmacies through a simple and reliable online system.
+            </p>
+            <p>
+                With Medicome, users can order medicines online, consult certified doctors,
+                and receive healthcare guidance without visiting hospitals or medical stores
+                physically. The platform focuses on convenience, safety, and efficiency,
+                ensuring that healthcare is just a few clicks away.
+            </p>
+        </div>
+
+        <!-- Why Choose Us -->
+        <div class="section">
+            <h2>Why Choose Medicome?</h2>
+            <ul>
+                <li>✔ Easy online medicine ordering</li>
+                <li>✔ Verified and experienced doctors</li>
+                <li>✔ Secure and user-friendly platform</li>
+                <li>✔ Time-saving and cost-effective services</li>
+                <li>✔ 24/7 access to healthcare support</li>
+            </ul>
+            <p><strong>We combine technology and healthcare to deliver a smarter medical experience.</strong></p>
+        </div>
+
+        <!-- Services -->
+        <div class="section">
+            <h2>Our Healthcare Services</h2>
+            <p>
+                Medicome provides a wide range of healthcare services to support patients in
+                their daily medical needs. Our platform is designed to be simple, fast,
+                and reliable for users of all age groups.
+            </p>
+            <ul>
+                <li>Online Medicine Ordering</li>
+                <li>Doctor Consultation</li>
+                <li>Health Advice & Guidance</li>
+                <li>Digital Medical Assistance</li>
+                <li>Pharmacy Support</li>
+            </ul>
+        </div>
+
+        <!-- How It Works -->
+        <div class="section">
+            <h2>How Medicome Works</h2>
+            <ol>
+                <li><strong>Create an Account</strong> – Register and log in securely</li>
+                <li><strong>Choose a Service</strong> – Order medicines or consult doctors</li>
+                <li><strong>Place Your Request</strong> – Add medicines to cart or book consultation</li>
+                <li><strong>Get Assistance</strong> – Receive medicines or medical guidance</li>
+            </ol>
+            <p><strong>Simple steps for smarter healthcare.</strong></p>
+        </div>
+
+        <!-- Trust Section -->
+        <div class="section">
+            <h2>Trusted Healthcare Platform</h2>
+            <p>
+                Medicome works with certified doctors and verified medicine providers to
+                ensure quality and safety. Our platform follows standard healthcare practices
+                to maintain trust, transparency, and reliability.
+            </p>
+            <p>
+                ✔ Certified Doctors &nbsp; ✔ Verified Medicines &nbsp; ✔ Secure Data Handling
+            </p>
+        </div>
+
+        <!-- Video Section -->
+        <div class="section">
+            <h2>Digital Healthcare for Everyone</h2>
+            <p>
+                Watch how Medicome is transforming healthcare by bringing medical services
+                online and making quality healthcare accessible to everyone.
+            </p>
+            <video controls>
+                <source src="assets/video/Healthcare.mp4" type="video/mp4">
+            </video>
+        </div>
+
+    </div>
+
+    <footer>
+        <p><strong>Medicome — Simplifying Healthcare Through Technology</strong></p>
+        <p>© 2025 Medicome. All Rights Reserved.</p>
+    </footer>
+<script type="module">
+
+import { signOut } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      alert("Logged out successfully");
+      window.location.href = "login.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+});
+
+</script>
+
+
+
+</body>
+
+</html>

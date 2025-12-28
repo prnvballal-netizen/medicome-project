@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicome | Login</title>
+    <link rel="stylesheet" href="style.css">
+<style>
+  .auth-box {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .auth-box label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+
+  .auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .auth-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .auth-actions button {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+  }
+</style>
+
+</head>
+
+<body>
+
+<!-- 🔹 NAV BAR -->
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    <h2>MEDICOME</h2>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="doctor.html">Doctors</a>
+        <a href="medicine.html">Medicines</a>
+        <a href="login.html">Login</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<!-- 🔹 LOGIN / REGISTER FORM -->
+<div class="auth-box">
+
+  <h2 style="text-align:center;">Login / Register</h2>
+
+  <label>Email</label>
+  <input type="email" id="email" required>
+
+  <label>Password</label>
+  <input type="password" id="password" required>
+
+  <div class="auth-actions">
+   <button type="button" onclick="loginUser()">Login</button>
+<button type="button" onclick="registerUser()">Register</button>
+
+  </div>
+
+</div>
+
+
+<!-- 🔥 FIREBASE AUTH LOGIC -->
+<script type="module">
+
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+/* 🔐 LOGIN */
+window.loginUser = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+    // ✅ SAFETY CHECK (ADD HERE)
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Login successful");
+      window.location.href = "home.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
+
+/* 🆕 REGISTER */
+window.registerUser = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  
+  // ✅ SAFETY CHECK (ADD HERE)
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+  
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Registration successful! Now login.");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
+
+</script>
+
+<footer style="text-align:center; margin-top:40px;">
+    <p>© 2025 Medicome</p>
+</footer>
+
+</body>
+</html>

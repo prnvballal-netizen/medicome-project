@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicome | Medicines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    <h2>MEDICOME</h2>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="doctor.html">Doctors</a>
+        <a href="medicine.html">Medicines</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2 style="text-align:center;">Order Medicines</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <img src="assets/images/med1.jpg">
+            <h3>Paracetamol</h3>
+            <p>₹20</p>
+            <button onclick="orderMedicine('Paracetamol', 20)">Buy Now</button>
+        </div>
+
+        <div class="card">
+            <img src="assets/images/med2.webp">
+            <h3>Vitamin C</h3>
+            <p>₹60</p>
+            <button onclick="orderMedicine('Vitamin C', 60)">Buy Now</button>
+        </div>
+
+        <div class="card">
+            <img src="assets/images/med3.webp">
+            <h3>Cough Syrup</h3>
+            <p>₹90</p>
+            <button onclick="orderMedicine('Cough Syrup', 90)">Buy Now</button>
+        </div>
+
+        <div class="card">
+            <img src="assets/images/med4.webp">
+            <h3>Antibiotic</h3>
+            <p>₹120</p>
+            <button onclick="orderMedicine('Antibiotic', 120)">Buy Now</button>
+        </div>
+
+        <div class="card">
+            <img src="assets/images/med5.jpg">
+            <h3>Pain Relief Gel</h3>
+            <p>₹75</p>
+            <button onclick="orderMedicine('Pain Relief Gel', 75)">Buy Now</button>
+        </div>
+
+        <div class="card">
+            <img src="assets/images/med6.jpg">
+            <h3>BP Tablets</h3>
+            <p>₹150</p>
+            <button onclick="orderMedicine('BP Tablets', 150)">Buy Now</button>
+        </div>
+
+    </div>
+</div>
+
+<footer style="text-align:center; margin-top:40px;">
+    <p>© 2025 Medicome</p>
+</footer>
+
+<!-- 🔥 Firebase Logic -->
+<script type="module">
+import { onAuthStateChanged } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+let loggedIn = false;
+
+// 🔐 Protect page (same as doctor.html)
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    loggedIn = true;
+  }
+});
+
+// 💊 Buy Now logic
+window.orderMedicine = function(name, price) {
+  if (!loggedIn) return;
+
+  localStorage.setItem("medicineName", name);
+  localStorage.setItem("medicinePrice", price);
+  window.location.href = "order_form.html";
+};
+</script>
+
+</body>
+</html>

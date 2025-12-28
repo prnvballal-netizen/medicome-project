@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicome | Doctor Consultation</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .consult-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .consult-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .consult-container label {
+            font-weight: bold;
+        }
+
+        .consult-container input,
+        .consult-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .consult-container button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header style="display:flex; align-items:center; justify-content:space-between; padding:15px;">
+    <h2>MEDICOME</h2>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="doctor.html">Doctors</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<div class="consult-container">
+    <h2>Doctor Consultation Form</h2>
+
+    <form onsubmit="return submitConsult()">
+
+        <label>Doctor Name</label>
+        <input type="text" id="doctor" readonly>
+
+        <label>Specialization</label>
+        <input type="text" id="specialization" readonly>
+
+        <label>Patient Name</label>
+        <input type="text" id="name" required>
+
+        <label>Mobile Number</label>
+        <input type="text" id="mobile" required>
+
+        <label>Problem Description</label>
+        <textarea id="problem" rows="3" required></textarea>
+
+        <button type="
+        submit">Submit Consultation</button>
+    </form>
+</div>
+<script type="module">
+
+import { onAuthStateChanged } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { addDoc, collection } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import { auth, db } from "./firebase.js";
+
+// 🔹 Autofill doctor details from previous page
+document.getElementById("doctor").value =
+  localStorage.getItem("doctorName") || "";
+
+document.getElementById("specialization").value =
+  localStorage.getItem("doctorSpec") || "";
+
+/* 🔐 Page protection */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+/* 🩺 Submit consultation */
+window.submitConsult = function () {
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      alert("Session expired. Please login again.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "consultations"), {
+        uid: user.uid,
+        doctor: document.getElementById("doctor").value,
+        specialization: document.getElementById("specialization").value,
+        patient: document.getElementById("name").value,
+        mobile: document.getElementById("mobile").value,
+        problem: document.getElementById("problem").value,
+        date: new Date()
+      });
+
+      alert("Consultation submitted successfully!");
+      window.location.href = "my_consults.html";
+
+    } catch (error) {
+      alert("Error saving consultation: " + error.message);
+      console.error(error);
+    }
+  });
+
+  return false;
+};
+
+</script>
+
+
+
+
+<footer>
+    <p>© 2025 Medicome</p>
+</footer>
+
+</body>
+</html>
